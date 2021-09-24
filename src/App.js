@@ -1,5 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import Weather from './Weather';
+import Search from './Search';
 
 const api = {
   key: '0f98c8f94399873693a034fcff6a4818',
@@ -23,6 +24,10 @@ function App() {
     }
   }
 
+  const handleSearch = (data) => (
+    setQuery(data)
+  )
+
   return (
     <div className={
       (typeof weather.main != 'undefined') 
@@ -32,17 +37,11 @@ function App() {
           }
       >
       <main>
-     <div className="search-box">
-      <input type="text" 
-        className="search-bar" 
-        placeholder="Search..."
-        onChange={e => setQuery(e.target.value)}
-        value={query}
-        onKeyPress={search} />
-     </div>
-
-<Weather weather={weather}/>
-
+        <Search 
+        search={search} 
+        handleSearch={handleSearch}
+        data={query}/>
+        <Weather weather={weather}/>
       </main>
     </div>
   );
