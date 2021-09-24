@@ -38,9 +38,9 @@ function App() {
       >
       <main>
         <Search 
-        search={search} 
-        handleSearch={handleSearch}
-        data={query}/>
+          search={search} 
+          handleSearch={handleSearch}
+          data={query}/>
         <Weather weather={weather}/>
       </main>
     </div>
