@@ -14,14 +14,14 @@ const Weather = (props) => (
         </div>
         <div className="weather-box">
           <div className="temp">
-            {Math.round((props.weather.main.temp) * 9 / 5 + 32)}°F
+            {Math.round(props.weather.main.temp)}°F
           </div>
           <div className="highlow">
             <div className="high">
-              H: {Math.round((props.weather.main.temp_max) * 9 / 5 + 32)}°F
+              H: {Math.round(props.weather.main.temp_max)}°F
             </div>
             <div className="low">
-              L: {Math.round((props.weather.main.temp_min) * 9 / 5 + 32)}°F
+              L: {Math.round(props.weather.main.temp_min)}°F
             </div>
           </div>
           <div className="weather">

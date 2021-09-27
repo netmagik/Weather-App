@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import Weather from './Weather';
 import Search from './Search';
+import Forecast from './forecast';
+
 
 const api = {
-  key: '0f98c8f94399873693a034fcff6a4818',
+  key: process.env.REACT_APP_API_KEY,
   base: 'https://api.openweathermap.org/data/2.5/'
 }
 
@@ -16,12 +18,11 @@ function App() {
     if (e.key === 'Enter') {
 
       try {
-        const endpoint = `${api.base}weather?q=${query}&units=metric&APPID=${api.key}`;
+        const endpoint = `${api.base}weather?q=${query}&units=imperial&APPID=${api.key}`;
         const res = await fetch(endpoint);
 
         const json = await res.json();
         setWeather(json);
-        setQuery('');
         console.log(json);
       } catch (error) {
         console.log(error);
@@ -32,6 +33,19 @@ function App() {
   const handleSearch = (data) => (
     setQuery(data)
   )
+
+  const getForecast = async () => {
+
+      try {
+        const url = `${api.base}forecast?q=${query}&units=imperial&APPID=${api.key}`;
+        const res = await fetch(url);
+
+        const json = await res.json();
+        console.log(json);
+      } catch (error) {
+        console.log(error);
+      }
+  }
 
   return (
     <div className={
@@ -47,6 +61,7 @@ function App() {
           handleSearch={handleSearch}
           data={query}/>
         <Weather weather={weather}/>
+        <Forecast getForecast={getForecast}/>
       </main>
     </div>
   );
