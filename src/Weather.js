@@ -24,7 +24,7 @@ const Weather = (props) => (
               L: {Math.round(props.weather.main.temp_min)}°F
             </div>
           </div>
-          <div className="weather">
+          <div className="description">
             {props.weather.weather[0].main}
           </div>
         </div>
