@@ -11,12 +11,11 @@ body {
 .app {
   background-image: url('./assets/cold-weather.jpeg');
   background-size: cover;
-  background-position: bottom;
+  background-position: 0 0;
   transition: 0.4s ease-out;
 }
 
 main {
-  height: 100vh;
   padding: 25px;
 }
 
@@ -103,4 +102,24 @@ main {
   display: inline-block;
   padding: 5px 30px;
   font-size: 24px;
+}
+
+.forecast {
+  list-style: none;
+  color: white;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  padding-bottom: 50px;
+}
+
+.forecast-day {
+  padding: 40px 30px;
+  margin: 0 10px;
+  border-radius: 3px;
+  box-shadow: 3px 6px rgba(0,0,0,0.2);
+}
+
+.forecast-day span {
+  display: block;
 }
