@@ -44,24 +44,11 @@ function App() {
         .then(data => {
           const selectList = data.list.filter(reading => reading.dt_txt.includes("18:00:00"));
           setAllData(selectList);
-        })
-        
-        
-        
-        // for (let i = 0; i < selectList.length; i += 8) {
-        //   days.push((new Date(selectList[i+5].dt_txt)).toDateString());
-        //   days.push(Math.round(selectList[i].main.temp));
-        //   days.push(selectList[i].weather[0].description);
-        //   console.log(days)
-        //   setAllData(days.slice(-3));
-        // }
-        // return days.slice(-3);
+        });
         
       }
-  
 
   const formatDays = () => {
-    console.log(allData)
     return allData.map((day, index) => <Card day={day} key={index} />)
   
   }
