@@ -32,19 +32,14 @@ const Card = (props) => {
     const date = new Date(weekday.dt_txt);
 
     return (
+     
         <>
-     <p>{date.toLocaleDateString(undefined, options)}</p>
-     <p>{Math.round(weekday.main.temp)} °F</p>
-     <p>{weekday.weather[0].main}</p>
-     <img src={weathericons[weekday.weather[0].main.toString()]} alt="Sun" />
-        {/* {props.days.forEach((weekday, index) => {
-            <li className="forecast-date" key={index}>
-                {weekday.dt_txt}
-            </li>
-        })} */}
-    {/* <p>{dateBuilder(new Date())}</p> */}
-   
-    </>
+            <img src={weathericons[weekday.weather[0].main.toString()]} alt="Sun" />
+            <p>{date.toLocaleDateString(undefined, options)}</p>
+            <p className="temp">{Math.round(weekday.main.temp)}°F</p>
+            <p>{weekday.weather[0].main}</p>
+
+        </>
     )
 }
 

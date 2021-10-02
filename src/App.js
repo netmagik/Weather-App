@@ -25,6 +25,7 @@ function App() {
 
         const json = await res.json();
         setWeather(json);
+        setAllData([]);
         console.log(json);
       } catch (error) {
         console.log(error);
@@ -36,20 +37,22 @@ function App() {
     setQuery(data)
   )
 
-  const getForecast = () => {
-        const url = `${api.base}forecast?q=${query}&units=imperial&APPID=${api.key}`;
-        fetch(url)
-        // const days = [];
-        .then(res => res.json())
-        .then(data => {
-          const selectList = data.list.filter(reading => reading.dt_txt.includes("18:00:00"));
-          setAllData(selectList);
-        });
-        
+  const getForecast = async () => {
+    try {
+      const url = `${api.base}forecast?q=${query}&units=imperial&APPID=${api.key}`;
+      const res = await fetch(url);
+      const data =  await res.json();
+      const selectList = data.list.filter(reading => reading.dt_txt.includes("18:00:00"));
+      setAllData(selectList);
+      console.log(selectList);
+
+    } catch (error) {
+      console.log(error);
+    }
       }
 
   const formatDays = () => {
-    return allData.map((day, index) => <Card day={day} key={index} />)
+    return allData.map((day, index) => <div className="forecast-day" key={index}><Card day={day}/></div>)
   
   }
 
@@ -57,7 +60,7 @@ function App() {
     <div className={
       (typeof weather.main != 'undefined') 
         ? 
-        ((weather.main.temp > 16) ? 'app warm' : 'app') 
+        ((weather.main.temp > 32) ? 'app warm' : 'app') 
         : 'app'
           }
       >
@@ -67,8 +70,10 @@ function App() {
           handleSearch={handleSearch}
           data={query}/>
         <Weather weather={weather}/>
-        {formatDays()}
-        <Forecast getForecast={getForecast}/>
+        {Object.keys(weather).length !== 0 ? <Forecast getForecast={getForecast}/> : ''}
+        
+        <div className="forecast">{formatDays()}</div>
+       
       </main>
     </div>
   );
