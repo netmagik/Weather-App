@@ -11,12 +11,13 @@ body {
 .app {
   background-image: url('./assets/cold-weather.jpeg');
   background-size: cover;
-  background-position: bottom;
+  background-position: 0 0;
   transition: 0.4s ease-out;
+  min-height: 100%;
+  overflow-y: scroll;
 }
 
 main {
-  height: 100vh;
   padding: 25px;
 }
 
@@ -26,12 +27,13 @@ main {
 
 .search-box {
   width: 100%;
-  margin: 0 0 75px;
+  margin: 0 0 50px;
 }
 
 .search-box .search-bar {
   width: 100%;
   padding: 15px;
+  text-transform: uppercase;
   display: block;
   appearance: none;
   background: none;
@@ -54,13 +56,13 @@ main {
   color: white;
   font-weight: 500;
   text-align: center;
-  font-size: 32px;
-  text-shadow: 3px 3px rgba(50,50,70,0.5);
+  font-size: 2rem;
+  text-shadow: 3px 3px rgba(50,50,70,0.3);
 }
 
 .location-box .date {
   color: white;
-  font-size: 20px;
+  font-size: 1.2rem;
   font-style: italic;
   text-align: center;
   font-weight: 300;
@@ -75,12 +77,12 @@ main {
 .weather-box .temp {
   position: relative;
   display: inline-block;
-  margin: 30px auto;
+  margin: 20px auto;
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 16px;
   padding: 15px 25px;
   color: white;
-  font-size: 102px;
+  font-size: 3rem;
   text-shadow: 3px 6px rgba(50,50,70,0.5 );
   font-weight: 900;
   text-align: center;
@@ -89,7 +91,7 @@ main {
 
 .weather-box .description {
   color: white;
-  font-size: 48px;
+  font-size: 1.5rem;
   font-weight: 700;
   text-shadow: 3px 3px rgba(50,50,70,0.5);
 }
@@ -102,5 +104,63 @@ main {
 .high, .low {
   display: inline-block;
   padding: 5px 30px;
-  font-size: 24px;
+  font-size: 1.3rem;
+  text-shadow: 3px 3px rgba(50,50,70,0.5);
+
+}
+
+.forecast {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  max-width: 1500px;
+  row-gap: 30px;
+  text-align: center;
+  padding-bottom: 50px;
+  justify-items: center;
+  margin: 20px auto;
+  height: 100vh;
+}
+
+.forecast-day {
+  background-color: rgba(255, 255, 255, 0.4);
+  padding: 10px 30px;
+  margin: 0 10px;
+  border-radius: 5px;
+  box-shadow: 1px 2px 2px 1px rgba(0,0,0,0.1);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  max-height: 250px;
+}
+
+.forecast-day img {
+  filter: drop-shadow(
+    1px 2px 4px hsl(220deg 60% 50%)
+  );
+}
+
+.forecast .temp {
+  font-size: 2rem;
+  padding: 10px 0;
+}
+
+.forecastTitle {
+  text-align: center;
+  margin: 20px;
+}
+
+.getForecast {
+  padding: 10px 20px;
+  border: none;
+  font-size: 1.5rem;
+  margin: 30px auto 40px;
+  appearance: none;
+  border-radius: 5px;
+  display: block;
+  outline: none;
+  cursor: pointer;
+  transition: 0.4 ease;
+  box-shadow: 1px 2px 2px 1px rgba(0,0,0,0.1);
+}
+
+.getForecast:hover {
+  background-color: rgba(255, 255, 255, 0.5);
 }

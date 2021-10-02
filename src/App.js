@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import Weather from './Weather';
 import Search from './Search';
+import Card from './Card';
 import Forecast from './forecast';
 
 
@@ -13,6 +14,7 @@ function App() {
 
   const [query, setQuery] = useState('');
   const [weather, setWeather] = useState({});
+  const [allData, setAllData] = useState([]);
 
   const search = async (e) => {
     if (e.key === 'Enter') {
@@ -23,6 +25,7 @@ function App() {
 
         const json = await res.json();
         setWeather(json);
+        setAllData([]);
         console.log(json);
       } catch (error) {
         console.log(error);
@@ -35,23 +38,29 @@ function App() {
   )
 
   const getForecast = async () => {
+    try {
+      const url = `${api.base}forecast?q=${query}&units=imperial&APPID=${api.key}`;
+      const res = await fetch(url);
+      const data =  await res.json();
+      const selectList = data.list.filter(reading => reading.dt_txt.includes("18:00:00"));
+      setAllData(selectList);
+      console.log(selectList);
 
-      try {
-        const url = `${api.base}forecast?q=${query}&units=imperial&APPID=${api.key}`;
-        const res = await fetch(url);
-
-        const json = await res.json();
-        console.log(json);
-      } catch (error) {
-        console.log(error);
+    } catch (error) {
+      console.log(error);
+    }
       }
+
+  const formatDays = () => {
+    return allData.map((day, index) => <div className="forecast-day" key={index}><Card day={day}/></div>)
+  
   }
 
   return (
     <div className={
       (typeof weather.main != 'undefined') 
         ? 
-        ((weather.main.temp > 16) ? 'app warm' : 'app') 
+        ((weather.main.temp > 32) ? 'app warm' : 'app') 
         : 'app'
           }
       >
@@ -61,7 +70,10 @@ function App() {
           handleSearch={handleSearch}
           data={query}/>
         <Weather weather={weather}/>
-        <Forecast getForecast={getForecast}/>
+        {Object.keys(weather).length !== 0 ? <Forecast getForecast={getForecast}/> : ''}
+        
+        <div className="forecast">{formatDays()}</div>
+       
       </main>
     </div>
   );
