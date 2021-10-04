@@ -10,7 +10,7 @@ const Search = (props) => {
     <div className="search-box">
     <input type="text" 
       className="search-bar" 
-      placeholder="Search..."
+      placeholder="Search For A City"
       onChange={handleChange}
       value={props.query}
       onKeyPress={props.search} />
