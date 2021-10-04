@@ -169,12 +169,15 @@ main {
   margin: 20px auto;
   display: grid;
   grid-template-columns: 1fr 4fr 1fr 4fr;
-  max-width: 200px;
+  max-width: 300px;
+  border: 1px solid #eeee;
+  padding: 10px 20px;
 }
 
 .toggle-label {
   color: white;
   font-size: 1.2rem;
+  text-shadow: 3px 3px rgba(50,50,70,0.5);
 }
 
 .switch {

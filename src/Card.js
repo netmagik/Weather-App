@@ -35,7 +35,10 @@ const Card = (props) => {
         <>
             <img src={weathericons[weekday.weather[0].main.toString()]} alt="Sun" />
             <p>{date.toLocaleDateString(undefined, options)}</p>
-            <p className="temp">{Math.round(weekday.main.temp)}°F</p>
+            <p className="temp">
+                {props.degreeToggle === "farenheit" ? `${Math.round(weekday.main.temp)}°F`
+                    : `${Math.round((weekday.main.temp - 32) * 5/9)}°C` }
+                </p>
             <p>{weekday.weather[0].main}</p>
 
         </>

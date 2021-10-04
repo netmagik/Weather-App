@@ -54,11 +54,12 @@ function App() {
       }
 
   const formatDays = () => {
-    return allData.map((day, index) => <div className="forecast-day" key={index}><Card day={day}/></div>)
+    return allData.map((day, index) => <div className="forecast-day" key={index}><Card degreeToggle={degreeToggle} day={day}/></div>)
   }
 
   const updateDegree = (e) => {
     console.log(e.target.value);
+    setDegreeToggle(e.target.value);
 
   }
 
@@ -75,9 +76,14 @@ function App() {
           search={search} 
           handleSearch={handleSearch}
           data={query}/>
-        <Weather weather={weather}/>
+        <Weather degreeToggle={degreeToggle} weather={weather}/>
+        
+        {Object.keys(weather).length !== 0 ? 
+        <>
         <Toggle updateDegree={updateDegree} degree={degreeToggle} />
-        {Object.keys(weather).length !== 0 ? <Forecast getForecast={getForecast}/> : ''}
+        <Forecast getForecast={getForecast}/> 
+        </> 
+        : ''}
         
         <div className="forecast">{formatDays()}</div>
        
