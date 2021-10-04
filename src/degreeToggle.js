@@ -21,7 +21,7 @@ const Toggle = (props) => {
                 id="farenheit"
                 // checked="farenheit"
                 onChange={props.updateDegree} />
-                <label className="toggle-label" htmlFor="farenheit">Farenheit</label>
+                <label className="toggle-label" htmlFor="farenheit">Fahrenheit</label>
            
         </div>
     )
