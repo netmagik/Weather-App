@@ -3,6 +3,7 @@ import Weather from './Weather';
 import Search from './Search';
 import Card from './Card';
 import Forecast from './forecast';
+import Toggle from './degreeToggle';
 
 
 const api = {
@@ -15,6 +16,7 @@ function App() {
   const [query, setQuery] = useState('');
   const [weather, setWeather] = useState({});
   const [allData, setAllData] = useState([]);
+  const [degreeToggle, setDegreeToggle] = useState('farenheit');
 
   const search = async (e) => {
     if (e.key === 'Enter') {
@@ -53,7 +55,11 @@ function App() {
 
   const formatDays = () => {
     return allData.map((day, index) => <div className="forecast-day" key={index}><Card day={day}/></div>)
-  
+  }
+
+  const updateDegree = (e) => {
+    console.log(e.target.value);
+
   }
 
   return (
@@ -70,6 +76,7 @@ function App() {
           handleSearch={handleSearch}
           data={query}/>
         <Weather weather={weather}/>
+        <Toggle updateDegree={updateDegree} degree={degreeToggle} />
         {Object.keys(weather).length !== 0 ? <Forecast getForecast={getForecast}/> : ''}
         
         <div className="forecast">{formatDays()}</div>

@@ -164,3 +164,20 @@ main {
 .getForecast:hover {
   background-color: rgba(255, 255, 255, 0.5);
 }
+
+.degree-toggle {
+  margin: 20px auto;
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr 4fr;
+  max-width: 200px;
+}
+
+.toggle-label {
+  color: white;
+  font-size: 1.2rem;
+}
+
+.switch {
+  transform: scale(1.1);
+  height: 20px;
+}
