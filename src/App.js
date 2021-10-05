@@ -21,20 +21,24 @@ function App() {
   const [long, setLong] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        setLat(position.coords.latitude);
-        setLong(position.coords.longitude);
-      })
-
-      await fetch(`${api.base}weather?lat=${lat}&lon=${long}&units=imperial&APPID=${api.key}`)
-      .then(res => res.json())
-      .then(result => {
-        setWeather(result);
-        console.log(result);
-      })
-    }
-    fetchData();
+  
+      const fetchData = async () => {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          setLat(position.coords.latitude);
+          setLong(position.coords.longitude);
+        })
+  
+        try {
+          const url = `${api.base}weather?lat=${lat}&lon=${long}&units=imperial&APPID=${api.key}`;
+          const res = await fetch(url);
+          const json = await res.json();
+          setWeather(json);
+  
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      fetchData();
   }, [lat, long]);
 
 
@@ -48,7 +52,6 @@ function App() {
         const json = await res.json();
         setWeather(json);
         setAllData([]);
-        console.log(json);
       } catch (error) {
         console.log(error);
       }
@@ -67,7 +70,6 @@ function App() {
         const data =  await res.json();
         const selectList = data.list.filter(reading => reading.dt_txt.includes("18:00:00"));
         setAllData(selectList);
-        console.log(selectList);
   
       } catch (error) {
         console.log(error);
@@ -79,7 +81,6 @@ function App() {
           const data =  await res.json();
           const selectList = data.list.filter(reading => reading.dt_txt.includes("18:00:00"));
           setAllData(selectList);
-          console.log(selectList);
     
         } catch (error) {
           console.log(error);
@@ -113,7 +114,7 @@ function App() {
           data={query}/>
         <Weather degreeToggle={degreeToggle} weather={weather}/>
         
-        {Object.keys(weather).length !== 0 ? 
+        {Object.keys(weather).length !== 0 && weather['cod'] != '400' ? 
         <>
         <Toggle updateDegree={updateDegree} degree={degreeToggle} />
         <Forecast getForecast={getForecast}/> 

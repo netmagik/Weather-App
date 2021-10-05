@@ -19,7 +19,6 @@ const Toggle = (props) => {
                 type="radio" 
                 value="farenheit" 
                 id="farenheit"
-                // checked="farenheit"
                 onChange={props.updateDegree} />
                 <label className="toggle-label" htmlFor="farenheit">Fahrenheit</label>
            
