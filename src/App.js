@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Weather from './Weather';
 import Search from './Search';
 import Card from './Card';
@@ -17,6 +17,26 @@ function App() {
   const [weather, setWeather] = useState({});
   const [allData, setAllData] = useState([]);
   const [degreeToggle, setDegreeToggle] = useState('farenheit');
+  const [lat, setLat] = useState([]);
+  const [long, setLong] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        setLat(position.coords.latitude);
+        setLong(position.coords.longitude);
+      })
+
+      await fetch(`${api.base}weather?lat=${lat}&lon=${long}&units=imperial&APPID=${api.key}`)
+      .then(res => res.json())
+      .then(result => {
+        setWeather(result);
+        console.log(result);
+      })
+    }
+    fetchData();
+  }, [lat, long]);
+
 
   const search = async (e) => {
     if (e.key === 'Enter') {
@@ -40,17 +60,32 @@ function App() {
   )
 
   const getForecast = async () => {
-    try {
-      const url = `${api.base}forecast?q=${query}&units=imperial&APPID=${api.key}`;
-      const res = await fetch(url);
-      const data =  await res.json();
-      const selectList = data.list.filter(reading => reading.dt_txt.includes("18:00:00"));
-      setAllData(selectList);
-      console.log(selectList);
-
-    } catch (error) {
-      console.log(error);
+    if (query !== '') {
+      try {
+        const url = `${api.base}forecast?q=${query}&units=imperial&APPID=${api.key}`;
+        const res = await fetch(url);
+        const data =  await res.json();
+        const selectList = data.list.filter(reading => reading.dt_txt.includes("18:00:00"));
+        setAllData(selectList);
+        console.log(selectList);
+  
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+        try {
+          const url = `${api.base}forecast?lat=${lat}&lon=${long}&units=imperial&APPID=${api.key}`;
+          const res = await fetch(url);
+          const data =  await res.json();
+          const selectList = data.list.filter(reading => reading.dt_txt.includes("18:00:00"));
+          setAllData(selectList);
+          console.log(selectList);
+    
+        } catch (error) {
+          console.log(error);
+      }
     }
+   
       }
 
   const formatDays = () => {
