@@ -7,6 +7,7 @@ https://netmagik.github.io/Weather-App/
 2. Toggle between Celcius and Fahrenheit
 3. Get 5 Day Forecast
 4. Search by City Name
+5. Change background color based on temperature (Show Blue < 32°F & Pink > 32°F )
 
 - API: https://openweathermap.org/api
 - This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
