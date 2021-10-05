@@ -119,7 +119,7 @@ function App() {
         <Toggle updateDegree={updateDegree} degree={degreeToggle} />
         <Forecast getForecast={getForecast}/> 
         </> 
-        : ''}
+        : <div className="error">Enable location access in your browser settings to see local weather or enter city in the search bar</div>}
         
         <div className="forecast">{formatDays()}</div>
        
