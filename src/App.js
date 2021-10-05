@@ -19,9 +19,10 @@ function App() {
   const [degreeToggle, setDegreeToggle] = useState('farenheit');
   const [lat, setLat] = useState([]);
   const [long, setLong] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-  
+
       const fetchData = async () => {
         navigator.geolocation.getCurrentPosition(function(position) {
           setLat(position.coords.latitude);
@@ -29,15 +30,20 @@ function App() {
         })
   
         try {
+         
           const url = `${api.base}weather?lat=${lat}&lon=${long}&units=imperial&APPID=${api.key}`;
           const res = await fetch(url);
           const json = await res.json();
           setWeather(json);
+          setLoading(false);
+      
   
         } catch (error) {
           console.log(error);
+          setLoading(false);
         }
       }
+
       fetchData();
   }, [lat, long]);
 
@@ -52,8 +58,10 @@ function App() {
         const json = await res.json();
         setWeather(json);
         setAllData([]);
+        setLoading(false)
       } catch (error) {
         console.log(error);
+        setLoading(false);
       }
   }
 }
@@ -107,14 +115,15 @@ function App() {
         : 'app'
           }
       >
+        {!loading ? 
       <main>
         <Search 
           search={search} 
           handleSearch={handleSearch}
           data={query}/>
+
         <Weather degreeToggle={degreeToggle} weather={weather}/>
-        
-        {Object.keys(weather).length !== 0 && weather['cod'] != '400' ? 
+        {Object.keys(weather).length !== 0 && weather['cod'] !== '400' ? 
         <>
         <Toggle updateDegree={updateDegree} degree={degreeToggle} />
         <Forecast getForecast={getForecast}/> 
@@ -122,8 +131,8 @@ function App() {
         : <div className="error">Enable location access in your browser settings to see local weather or enter city in the search bar</div>}
         
         <div className="forecast">{formatDays()}</div>
-       
       </main>
+      : <div className="modal"><span className="loader"></span></div>}
     </div>
   );
 }
