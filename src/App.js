@@ -23,29 +23,30 @@ function App() {
 
   useEffect(() => {
 
-      const fetchData = async () => {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          setLat(position.coords.latitude);
-          setLong(position.coords.longitude);
-        })
-  
-        try {
-         
-          const url = `${api.base}weather?lat=${lat}&lon=${long}&units=imperial&APPID=${api.key}`;
-          const res = await fetch(url);
-          const json = await res.json();
-          setWeather(json);
-          setLoading(false);
-      
-  
-        } catch (error) {
-          console.log(error);
-          setLoading(false);
-        }
-      }
-
       fetchData();
   }, [lat, long]);
+
+  const fetchData = async () => {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      setLat(position.coords.latitude);
+      setLong(position.coords.longitude);
+    })
+
+    try {
+     
+      const url = `${api.base}weather?lat=${lat}&lon=${long}&units=imperial&APPID=${api.key}`;
+      const res = await fetch(url);
+      const json = await res.json();
+      setWeather(json);
+      setLoading(false);
+      console.log(lat, long)
+  
+
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  }
 
 
   const search = async (e) => {
