@@ -107,7 +107,7 @@ function App() {
           <Search search={search} handleSearch={handleSearch} data={query} />
 
           <Weather degreeToggle={degreeToggle} weather={weather} />
-          {Object.keys(weather).length !== 0 && weather["cod"] !== "400" ? (
+          {weather !== null && weather["cod"] !== "400" ? (
             <>
               <Toggle updateDegree={updateDegree} degree={degreeToggle} />
               <Forecast getForecast={getForecast} />
