@@ -94,20 +94,20 @@ function App() {
   };
 
   return (
-    <div className="app"
-      // className={
-      //   weather !== null && typeof weather.main !== "undefined" ? weather.main.temp > 32
-      //       ? "app warm"
-      //       : "app"
-      //     : "app"
-      // }
+    <div 
+      className={
+        weather !== null && typeof weather.main !== "undefined" ? weather.main.temp > 32
+            ? "app warm"
+            : "app"
+          : "app"
+      }
     >
       {!loading ? (
         <main>
           <Search search={search} handleSearch={handleSearch} data={query} />
 
           <Weather degreeToggle={degreeToggle} weather={weather} />
-          {weather !== null && weather["cod"] !== "400" ? (
+          {weather !== null ? (
             <>
               <Toggle updateDegree={updateDegree} degree={degreeToggle} />
               <Forecast getForecast={getForecast} />
