@@ -1,139 +1,132 @@
-import React, {useState, useEffect} from 'react';
-import Weather from './Weather';
-import Search from './Search';
-import Card from './Card';
-import Forecast from './forecast';
-import Toggle from './degreeToggle';
-
-
-const api = {
-  key: process.env.REACT_APP_API_KEY,
-  base: 'https://api.openweathermap.org/data/2.5/'
-}
+import React, { useState, useEffect } from "react";
+import Weather from "./Weather";
+import Search from "./Search";
+import Card from "./Card";
+import Forecast from "./forecast";
+import Toggle from "./degreeToggle";
 
 function App() {
-
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [weather, setWeather] = useState({});
   const [allData, setAllData] = useState([]);
-  const [degreeToggle, setDegreeToggle] = useState('farenheit');
+  const [degreeToggle, setDegreeToggle] = useState("farenheit");
   const [lat, setLat] = useState([]);
-  const [long, setLong] = useState([]);
+  const [lon, setLon] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-
-      fetchData();
-  }, [lat, long]);
+    fetchData();
+  }, [lat, lon]);
 
   const fetchData = async () => {
-    navigator.geolocation.getCurrentPosition(function(position) {
+    navigator.geolocation.getCurrentPosition(function (position) {
       setLat(position.coords.latitude);
-      setLong(position.coords.longitude);
-    })
-
+      setLon(position.coords.longitude);
+    });
     try {
-     
-      const url = `${api.base}weather?lat=${lat}&lon=${long}&units=imperial&APPID=${api.key}`;
+      const url = `/.netlify/functions/getWeather?lat=${lat}&lon=${lon}`;
       const res = await fetch(url);
       const json = await res.json();
-      setWeather(json);
+      setWeather(json.data);
       setLoading(false);
-      console.log(lat, long)
-  
-
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
-  }
-
+  };
 
   const search = async (e) => {
-    if (e.key === 'Enter') {
-
+    if (e.key === "Enter") {
       try {
-        const endpoint = `${api.base}weather?q=${query}&units=imperial&APPID=${api.key}`;
+        const endpoint = `/.netlify/functions/searchWeather?q=${query}`;
         const res = await fetch(endpoint);
-
         const json = await res.json();
-        setWeather(json);
+        setWeather(json.data);
         setAllData([]);
-        setLoading(false)
+        setLoading(false);
       } catch (error) {
         console.log(error);
         setLoading(false);
       }
-  }
-}
+    }
+  };
 
-  const handleSearch = (data) => (
-    setQuery(data)
-  )
+  const handleSearch = (data) => setQuery(data);
 
   const getForecast = async () => {
-    if (query !== '') {
+    if (query !== "") {
       try {
-        const url = `${api.base}forecast?q=${query}&units=imperial&APPID=${api.key}`;
+        const url = `/.netlify/functions/forecastWeather?q=${query}`;
         const res = await fetch(url);
-        const data =  await res.json();
-        const selectList = data.list.filter(reading => reading.dt_txt.includes("18:00:00"));
+        const data = await res.json();
+        const selectList = data.data.list.filter((reading) =>
+          reading.dt_txt.includes("18:00:00")
+        );
         setAllData(selectList);
-  
       } catch (error) {
         console.log(error);
       }
     } else {
-        try {
-          const url = `${api.base}forecast?lat=${lat}&lon=${long}&units=imperial&APPID=${api.key}`;
-          const res = await fetch(url);
-          const data =  await res.json();
-          const selectList = data.list.filter(reading => reading.dt_txt.includes("18:00:00"));
-          setAllData(selectList);
-    
-        } catch (error) {
-          console.log(error);
+      try {
+        const url = `/.netlify/functions/forecastLatLon?lat=${lat}&lon=${lon}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        const selectList = data.list.filter((reading) =>
+          reading.dt_txt.includes("18:00:00")
+        );
+        setAllData(selectList);
+      } catch (error) {
+        console.log(error);
       }
     }
-   
-      }
+  };
 
   const formatDays = () => {
-    return allData.map((day, index) => <div className="forecast-day" key={index}><Card degreeToggle={degreeToggle} day={day}/></div>)
-  }
+    return allData.map((day, index) => (
+      <div className="forecast-day" key={index}>
+        <Card degreeToggle={degreeToggle} day={day} />
+      </div>
+    ));
+  };
 
   const updateDegree = (e) => {
-    console.log(e.target.value);
     setDegreeToggle(e.target.value);
-
-  }
+  };
 
   return (
-    <div className={
-      (typeof weather.main != 'undefined') 
-        ? 
-        ((weather.main.temp > 32) ? 'app warm' : 'app') 
-        : 'app'
-          }
-      >
-        {!loading ? 
-      <main>
-        <Search 
-          search={search} 
-          handleSearch={handleSearch}
-          data={query}/>
+    <div
+      className={
+        typeof weather.main != "undefined"
+          ? weather.main.temp > 32
+            ? "app warm"
+            : "app"
+          : "app"
+      }
+    >
+      {!loading ? (
+        <main>
+          <Search search={search} handleSearch={handleSearch} data={query} />
 
-        <Weather degreeToggle={degreeToggle} weather={weather}/>
-        {Object.keys(weather).length !== 0 && weather['cod'] !== '400' ? 
-        <>
-        <Toggle updateDegree={updateDegree} degree={degreeToggle} />
-        <Forecast getForecast={getForecast}/> 
-        </> 
-        : <div className="error">Enable location access in your browser settings to see local weather or enter city in the search bar</div>}
-        
-        <div className="forecast">{formatDays()}</div>
-      </main>
-      : <div className="modal"><span className="loader"></span></div>}
+          <Weather degreeToggle={degreeToggle} weather={weather} />
+          {Object.keys(weather).length !== 0 && weather["cod"] !== "400" ? (
+            <>
+              <Toggle updateDegree={updateDegree} degree={degreeToggle} />
+              <Forecast getForecast={getForecast} />
+            </>
+          ) : (
+            <div className="error">
+              Enable location access in your browser settings to see local
+              weather or enter city in the search bar
+            </div>
+          )}
+
+          <div className="forecast">{formatDays()}</div>
+        </main>
+      ) : (
+        <div className="modal">
+          <span className="loader"></span>
+        </div>
+      )}
     </div>
   );
 }
