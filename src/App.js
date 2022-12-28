@@ -94,14 +94,13 @@ function App() {
   };
 
   return (
-    <div
-      className={
-        weather !== null && typeof weather.main !== "undefined"
-          ? weather.main.temp > 32
-            ? "app warm"
-            : "app"
-          : "app"
-      }
+    <div className="app"
+      // className={
+      //   weather !== null && typeof weather.main !== "undefined" ? weather.main.temp > 32
+      //       ? "app warm"
+      //       : "app"
+      //     : "app"
+      // }
     >
       {!loading ? (
         <main>
