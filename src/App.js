@@ -96,7 +96,7 @@ function App() {
   return (
     <div 
       className={
-        weather !== null && typeof weather.main !== "undefined" ? weather.main.temp > 32
+        weather !== null && weather.main !== undefined ? weather.main.temp > 32
             ? "app warm"
             : "app"
           : "app"
