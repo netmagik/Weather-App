@@ -10,10 +10,10 @@ exports.handler = async (event, context) => {
       `${BASE_URL}weather?q=${q}&units=imperial&APPID=${process.env.API_KEY}`
     )
       .then((res) => {
-        if (!res.ok) {
-          throw new Error("Network response not ok");
-        }
-        return res.json();
+        // if (!res.ok) {
+        //   throw new Error("Network response not ok");
+        // }
+        return res.json()
       })
       .then((data) => {
         return {
