@@ -24,7 +24,7 @@ function App() {
       setLon(position.coords.longitude);
     });
     try {
-      const url = `/.netlify/functions/getWeather?lat=${lat}&lon=${lon}`;
+      const url = `/api/getWeather?lat=${lat}&lon=${lon}`;
       const res = await fetch(url);
       const json = await res.json();
       setWeather(json.data);
@@ -38,7 +38,7 @@ function App() {
   const search = async (e) => {
     if (e.key === "Enter") {
       try {
-        const endpoint = `/.netlify/functions/searchWeather?q=${query}`;
+        const endpoint = `/api/searchWeather?q=${query}`;
         const res = await fetch(endpoint);
         const json = await res.json();
         setWeather(json.data);
@@ -56,7 +56,7 @@ function App() {
   const getForecast = async () => {
     if (query !== "") {
       try {
-        const url = `/.netlify/functions/forecastWeather?q=${query}`;
+        const url = `/api/forecastWeather?q=${query}`;
         const res = await fetch(url);
         const data = await res.json();
         const selectList = data.data.list.filter((reading) =>
@@ -68,7 +68,7 @@ function App() {
       }
     } else {
       try {
-        const url = `/.netlify/functions/forecastLatLon?lat=${lat}&lon=${lon}`;
+        const url = `/api/forecastLatLon?lat=${lat}&lon=${lon}`;
         const res = await fetch(url);
         const data = await res.json();
         const selectList = data.list.filter((reading) =>
